@@ -22,7 +22,15 @@ class UsersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addColumn('status', function ($user) {
+                if ($user->status == 1) {
+                    return '<span class="badge badge-success">Active</span>';
+                } else {
+                    return '<span class="badge badge-danger">Inactive</span>';
+                }
+            })
             ->addColumn('action', 'users.action')
+            ->rawColumns(['status', 'action']) // Ensures the HTML is rendered
             ->setRowId('id');
     }
 
@@ -64,10 +72,10 @@ class UsersDataTable extends DataTable
         return [
             Column::make('name'),
             Column::make('email'),
-            Column::make("cnic"),
+            Column::make('cnic'),
             Column::make('mobile_number'),
-            Column::make("login_name"),
-            Column::make("status")
+            Column::make('login_name'),
+            Column::make('status')
         ];
     }
 

@@ -8,10 +8,12 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\WithExportQueue;
 use Yajra\DataTables\Services\DataTable;
 
 class BlocksDataTable extends DataTable
 {
+    use WithExportQueue;
     /**
      * Build the DataTable class.
      *
@@ -20,8 +22,14 @@ class BlocksDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'blocks.edit')
-            ->rawColumns(['acton'])
+            ->addColumn('action', function ($row) {
+                return "<a href='" . route('Blocks.edit', $row->id) . "' class='text-primary btn'><i class='feather text-center icon-edit-2'></i></a>" .
+                    "<a href='" . route("Blocks.show", $row->id) . "' class='text-secondary btn'><i class='text-center feather icon-eye'></i></a>";
+            })
+            ->addColumn('user_id', function ($row) {
+                return $row->getUser->name;
+            })
+            ->rawColumns(['action'])
             ->setRowId('id');
     }
 
@@ -30,7 +38,7 @@ class BlocksDataTable extends DataTable
      */
     public function query(Block $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->with('getUser');
     }
 
     /**
@@ -39,23 +47,13 @@ class BlocksDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('blocks-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload'),
-                        Button::make('create')
-                              ->text('Create')
-                              ->raw()
-                              ->action("window.location.href='" . route('Blocks.create') . "'")
-                    ]);
+            ->setTableId('blocks-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->parameters([
+                'buttons' => ['csv', 'pdf']
+            ])
+            ->selectStyleSingle();
     }
 
     /**
@@ -66,11 +64,13 @@ class BlocksDataTable extends DataTable
         return [
             Column::make('block_name'),
             Column::make('created_at'),
+            Column::make("updated_at"),
+            Column::make('user_id'),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+                ->exportable(!true)
+                ->printable(!true)
+                ->width(40)
+                ->addClass('text-center'),
         ];
     }
 

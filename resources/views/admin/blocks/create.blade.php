@@ -1,6 +1,17 @@
 @extends('layout.master')
 
-@section('title', 'Create Hospital Block')
+@php($name = 'Create Hospital Block')
+
+@section('title', $name)
+
+@section('header', $name)
+
+@section('breadcrumbs')
+    @include('layout.breadcrumbs',[
+        'pageName' => "Blocks Management",
+        'module' => "Create Blocks"
+    ])
+@endsection
 
 @section('content')
     <h6 class="mb-4">Add Block</h6>

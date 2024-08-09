@@ -14,14 +14,33 @@
                 <li class="nav-item pcoded-menu-caption">
                     <label>Settings</label>
                 </li>
-                <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item">
+                <li class="nav-item">
                     <a href="/" class="nav-link "><span class="pcoded-micon"><i
                                 class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
                 </li>
-                <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
-                    class="nav-item @if (in_array(Route::currentRouteName(), ['Blocks.index', 'Blocks.create', 'Blocks.show', 'Blocks.edit'])) active @endif">
-                    <a href="{{ route('Blocks.index') }}" class="nav-link "><span class="pcoded-micon"><i
-                                class="feather icon-home"></i></span><span class="pcoded-mtext">Manage Blocks</span></a>
+                <li class="nav-item">
+                    <a href="{{ route('Users.index') }}" class="nav-link">
+                    <span class="pcoded-micon">
+                        <i class="feather icon-user"></i>        
+                    </span>
+                    <span class="pcoded-mtext">User Management</span>
+                    </a>
+                </li>
+                <li class="nav-item pcoded-hasmenu">
+                    <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i
+                                class="feather icon-box"></i></span><span class="pcoded-mtext">Settings</span></a>
+                    <ul class="pcoded-submenu">
+                        <li class="nav-item @if (in_array(Route::currentRouteName(), ['Blocks.index', 'Blocks.create', 'Blocks.show', 'Blocks.edit'])) active @endif"><a
+                                href="{{ route('Blocks.index') }}">Manage Blocks</a></li>
+                        <li class="nav-item @if (in_array(Route::currentRouteName(), [
+                                'Departments.index',
+                                'Departments.create',
+                                'Departments.edit',
+                                'Departments.show',
+                            ])) active @endif">
+                            <a href="{{ route('Departments.index') }}" class="nav-link">Manage Department</a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>

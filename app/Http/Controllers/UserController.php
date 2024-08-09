@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\UsersDataTable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(UsersDataTable $usersDataTable)
     {
-        return view('admin.blocks.index');
+        return $usersDataTable->render('admin.users.index');
     }
 
     /**
@@ -60,5 +59,35 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function show_login_page(){
+        return view('auth.login');
+    }
+
+    public function authentication_user(Request $request){
+        $request->validate([
+            'login_name' => "required",
+            "password" => "required"
+        ],[
+            'login_name.required' => "Login Name is Required",
+            'password.required' => 'Password Is Required Field'
+        ]);
+
+        $credentails = ['login_name' => $request->login_name, 'password' => $request->password];
+
+        $authentication = Auth::attempt($credentails);
+
+        if($authentication){
+            return redirect()->route('users.dashboard');
+        }
+
+        else {
+            return redirect()->back()->with('error', "Invalid Login Name or Password.");
+        }
+    }
+
+    public function show_dashboard(){
+        return view('admin.dashboard');
     }
 }

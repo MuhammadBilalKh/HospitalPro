@@ -39,6 +39,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function setNameAttribute($value){
+        return $this->attributes['name'] = ucwords($value);
+    }
+
     /**
      * Get the attributes that should be cast.
      *

@@ -4,4 +4,5 @@
 <ul class="breadcrumb">
     <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
     <li class="breadcrumb-item"><a href="javascript:">{{ $module }}</a></li>
+    <li class="breadcrumb-item"><a href="javascript;">{{ $pageName }}</a></li>
 </ul>

@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <script src="{{ asset('assets/js/vendor-all.min.js') }}"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     @stack('css')
 </head>
@@ -66,6 +67,15 @@
 
     @include('layout.footer')
     @stack('script')
+
+    <script>
+        function ShowProcess() {
+            html = "<center><img width='40px' height='40px' src='" + "{{ asset('assets/images/gif/abc.gif') }}" +
+                "'/></center>";
+            html += '<h4 style="text-align:center">Processing...!</h4>';
+            $(this).find('.modal-body').html(html);
+        }
+    </script>
 </body>
 
 </html>

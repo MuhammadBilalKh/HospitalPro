@@ -7,10 +7,12 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\DataTables\\BlocksDataTable' => $baseDir . '/app/DataTables/BlocksDataTable.php',
+    'App\\DataTables\\UsersDataTable' => $baseDir . '/app/DataTables/UsersDataTable.php',
     'App\\Http\\Controllers\\BlockController' => $baseDir . '/app/Http/Controllers/BlockController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\DepartmentController' => $baseDir . '/app/Http/Controllers/DepartmentController.php',
     'App\\Http\\Controllers\\UserController' => $baseDir . '/app/Http/Controllers/UserController.php',
+    'App\\Http\\Middleware\\IsUserLogin' => $baseDir . '/app/Http/Middleware/IsUserLogin.php',
     'App\\Models\\Block' => $baseDir . '/app/Models/Block.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',

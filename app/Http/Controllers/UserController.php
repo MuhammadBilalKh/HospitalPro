@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\UsersDataTable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -18,7 +19,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.users.create');
     }
 
     /**
@@ -26,7 +27,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => "required",
+            "login_name" => "required|unique:users,login_name",
+            "cnic" => "required|unique:users,cnic",
+            "mobile_number" => "required|unique:mobile_number",
+            "email" => "required|email|unique:users,email",
+            'address' => 'required'
+        ]);
+
+        $password = Str::random(8);
     }
 
     /**
@@ -74,9 +84,9 @@ class UserController extends Controller
             'password.required' => 'Password Is Required Field'
         ]);
 
-        $credentails = ['login_name' => $request->login_name, 'password' => $request->password];
+        $credentials = ['login_name' => $request->login_name, 'password' => $request->password];
 
-        $authentication = Auth::attempt($credentails);
+        $authentication = Auth::attempt($credentials);
 
         if($authentication){
             return redirect()->route('users.dashboard');
@@ -85,6 +95,10 @@ class UserController extends Controller
         else {
             return redirect()->back()->with('error', "Invalid Login Name or Password.");
         }
+    }
+
+    public function logout(){
+        Auth::logout();
     }
 
     public function show_dashboard(){

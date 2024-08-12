@@ -39,7 +39,7 @@ class UsersDataTable extends DataTable
      */
     public function query(User $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->where("id", "<>", 1);
     }
 
     /**
@@ -50,7 +50,7 @@ class UsersDataTable extends DataTable
         return $this->builder()
                     ->setTableId('users-table')
                     ->columns($this->getColumns())
-                    ->minifiedAjax()
+                    ->ajax()
                     //->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()

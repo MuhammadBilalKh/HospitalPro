@@ -1,15 +1,15 @@
 @extends('layout.master')
 
-@php($name = "User Management")
+@php($name = 'User Management')
 
 @section('title', "$name")
 
 @section('header', "$name")
 
 @section('breadcrumbs')
-    @include('layout.breadcrumbs',[
+    @include('layout.breadcrumbs', [
         'module' => "$name",
-        'pageName' => "Users List"
+        'pageName' => 'Users List',
     ])
 @endsection
 
@@ -17,17 +17,17 @@
     <h6 class="mb-4">{{ $name }}</h6>
     <div class="row">
         <div class="col-12">
-            <a href="{{ route('Users.create') }}" class="btn btn-sm btn-primary float-right">Add Block</a>
+            <a href="{{ route('Users.create') }}" class="btn btn-sm btn-primary float-right">Create User</a>
             {{ $dataTable->table(['class' => 'table table-hover table-striped table-sm table-small table-bordered']) }}
         </div>
     </div>
 @endsection
 
 @push('script')
-<script>
-    $(document).ready(function(){
-        $("input, select").addClass("form-control")
-    });
-</script>
+    <script>
+        $(document).ready(function() {
+            $("input, select").addClass("form-control")
+        });
+    </script>
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush

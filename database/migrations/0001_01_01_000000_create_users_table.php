@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum("gender", ['Male', "Female"]);
             $table->tinyInteger('status')->unsigned()->default(1);
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

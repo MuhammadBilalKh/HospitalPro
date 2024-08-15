@@ -2,15 +2,17 @@
 
 namespace App\DataTables;
 
-use App\Models\User;
+use App\Models\Ward;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Html\Editor\Editor;
+use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class UsersDataTable extends DataTable
+class WardDatatables extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -20,28 +22,25 @@ class UsersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('status', function ($user) {
-                if ($user->status == 1) {
-                    return '<span class="badge badge-success">Active</span>';
-                } else {
-                    return '<span class="badge badge-danger">Inactive</span>';
-                }
+            ->addColumn('action', function ($ward) {
+                return "<a href='" . route('Wards.edit', $ward->id) . "' class='text-primary btn'><i class='feather text-center icon-edit-2'></i></a>" .
+                    "<a href='" . route("Wards.show", $ward->id) . "' class='text-secondary btn'><i class='text-center feather icon-eye'></i></a>";
             })
-            ->addColumn('action', function ($user) {
-                $btnActions = "<a href='" . route('Users.edit', $user->id) . "' id='" . $user->id . "' class='text-primary btn'><i class='feather text-center icon-edit-2'></i></a>";
-                $btnActions .= "<a href='".route('Users.show', $user->id)."' class='text-warning btn'><i class='feather text-center icon-eye'></i></a>";
-                return $btnActions;
+            ->addColumn("Department", function ($ward) {
+                return $ward->get_ward_department->department_name;
             })
-            ->rawColumns(['status', 'action'])
+            ->addColumn("Created/Updated By", function ($ward) {
+                return $ward->get_ward_user->login_name;
+            })
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(User $model): QueryBuilder
+    public function query(Ward $model): QueryBuilder
     {
-        return $model->newQuery()->where("id", "<>", 1);
+        return $model->newQuery();
     }
 
     /**
@@ -50,9 +49,9 @@ class UsersDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('users-table')
+            ->setTableId('warddatatables-table')
             ->columns($this->getColumns())
-            ->ajax()
+            ->minifiedAjax()
             //->dom('Bfrtip')
             ->orderBy(1)
             ->selectStyleSingle()
@@ -73,12 +72,13 @@ class UsersDataTable extends DataTable
     {
         return [
             Column::make('name'),
-            Column::make('email'),
-            Column::make('cnic'),
-            Column::make('mobile_number'),
-            Column::make('login_name'),
-            Column::make('status'),
-            Column::make("action")
+            Column::make("Department"),
+            Column::make("Created/Updated By"),
+            Column::computed('action')
+                ->exportable(!true)
+                ->printable(!true)
+                ->width(40)
+                ->addClass('text-center')
         ];
     }
 
@@ -87,6 +87,6 @@ class UsersDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Users_' . date('YmdHis');
+        return 'WardDatatables_' . date('YmdHis');
     }
 }

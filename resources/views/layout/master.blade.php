@@ -67,15 +67,6 @@
 
     @include('layout.footer')
     @stack('script')
-
-    <script>
-        function ShowProcess() {
-            html = "<center><img width='40px' height='40px' src='" + "{{ asset('assets/images/gif/abc.gif') }}" +
-                "'/></center>";
-            html += '<h4 style="text-align:center">Processing...!</h4>';
-            $(this).find('.modal-body').html(html);
-        }
-    </script>
 </body>
 
 </html>

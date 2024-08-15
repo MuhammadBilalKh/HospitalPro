@@ -22,9 +22,11 @@ class Block extends Model
         return $this->attributes['block_name'] = ucwords($value);
     }
 
-    public static function GetBlocksList()
+    public static function GetBlocksList($blockID = null)
     {
-        return static::pluck("block_name", "id");
+        return static::when($blockID, function ($query) use ($blockID) {
+            $query->where('id', $blockID);
+        })->pluck('block_name', 'id');
     }
 
     public function block_departments()

@@ -16,7 +16,9 @@
     <div class="row">
         <div class="col-12">
             <a href="{{ route('Blocks.create') }}" class="btn btn-sm btn-primary float-right">Add Block</a>
-            {{ $dataTable->table(['class' => 'table table-hover table-striped table-bordered']) }}
+            <div class="table-responsive">
+                {{ $dataTable->table(['class' => 'table table-hover table-striped table-bordered']) }}
+            </div>
         </div>
     </div>
 @endsection

@@ -17,6 +17,10 @@ class Ward extends Model
     }
 
     public function get_ward_department(){
-        return $this->hasOne(Department::class ,'department_id', 'id');
+        return $this->belongsTo(Department::class ,'department_id', 'id');
+    }
+
+    public function setNameAttribute($value){
+        return $this->attributes['name'] = ucwords($value);
     }
 }

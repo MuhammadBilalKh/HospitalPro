@@ -20,10 +20,10 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('Users.index') }}" class="nav-link">
-                    <span class="pcoded-micon">
-                        <i class="feather icon-user"></i>        
-                    </span>
-                    <span class="pcoded-mtext">User Management</span>
+                        <span class="pcoded-micon">
+                            <i class="feather icon-user"></i>
+                        </span>
+                        <span class="pcoded-mtext">User Management</span>
                     </a>
                 </li>
                 <li class="nav-item pcoded-hasmenu">
@@ -39,6 +39,10 @@
                                 'Departments.show',
                             ])) active @endif">
                             <a href="{{ route('Departments.index') }}" class="nav-link">Manage Department</a>
+                        </li>
+                        <li class="nav-item
+                        @if (in_array(Route::currentRouteName(), ['Wards.index', 'Wards.create', 'Wards.edit', 'Wards.show']))  @endif">
+                            <a href="{{ route('Wards.index') }}" class="nav-link">Manage Wards</a>
                         </li>
                     </ul>
                 </li>

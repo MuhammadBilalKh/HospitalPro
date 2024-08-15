@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('user_roles', function (Blueprint $table) {
             $table->id();
-            $table->string('department_name')->unique();
-            $table->foreignId('block_id')->constrained('blocks');
-            $table->foreignId('user_id')->constrained('users');
-            $table->string('comments')->nullable();
+            $table->string("role")->unique();
+            $table->string("comments")->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('user_roles');
     }
 };

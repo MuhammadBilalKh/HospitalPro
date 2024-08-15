@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('auth_assignments', function (Blueprint $table) {
             $table->id();
-            $table->string('department_name')->unique();
-            $table->foreignId('block_id')->constrained('blocks');
             $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('auth_assignment')->constrained("user_roles");
             $table->string('comments')->nullable();
             $table->timestamps();
         });
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('auth_assignments');
     }
 };

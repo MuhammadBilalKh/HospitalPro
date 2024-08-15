@@ -5,17 +5,16 @@
 @section('breadcrumbs')
     @include('layout.breadcrumbs', [
         'module' => 'User Management',
-        'pageName' => 'User Registration',
+        'pageName' => '' . $user->name,
     ])
 @endsection
 
 @section('content')
-    @section('header', "Register User")
     @include('admin.users._form', [
-        'user' => null,
-        'action' => route('Users.store'),
-        'type' => 'create',
-    ]);
+        'user' => $user,
+        'action' => '',
+        'type' => 'show',
+    ])
 @endsection
 
 @push('script')

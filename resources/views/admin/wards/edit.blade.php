@@ -4,7 +4,7 @@
 
 @section('title', $title)
 
-@section('header', "'Edit Ward '.$ward->name)
+@section('header', 'Edit Ward '.$ward->name)
 
 @section('breadcrumbs')
     @include('layout.breadcrumbs', [
@@ -23,11 +23,3 @@
         'action' => route('Wards.update', $ward->id)
     ])
 @endsection
-
-@push('script')
-    <script>
-        $(document).ready(function(){
-            
-        });
-    </script>
-@endpush

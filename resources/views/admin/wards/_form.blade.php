@@ -16,7 +16,7 @@
     </div>
 </div>
 
-<div class="col-sm-3" @if($type == 'edit') hidden @endif>
+<div class="col-sm-3" @if($type == 'edit' || $type == 'show') hidden @endif>
     <div class="form-group">
         {!! html()->label('Select Block: ') !!}
         {!! html()->select('blocks', $blocks ?? [])->attribute('id', 'slctBlocks')->class('form-control')->placeholder('Select Blocks') !!}
@@ -27,7 +27,7 @@
 <div class="col-sm-3" id="divDepartments">
     <div class="form-group">
         {!! html()->label('Select Department: ') !!}
-        {!! html()->select('department_id', $departments ?? [])->attribute('id', 'slctDepartments')->class('form-control')->placeholder('Select Department') !!}
+        {!! html()->select('department_id', $departments ?? [])->attribute('id', 'slctDepartments')->class('form-control') !!}
         @error('department_id')
             <span class="text-danger">{{ $message }}</span>
         @enderror
@@ -37,7 +37,7 @@
 <div class="col-sm-12">
     <div class="form-group">
         {!! html()->label('Comments (if any): ') !!}
-        {!! html()->text('comments')->class('form-control') !!}
+        {!! html()->text('comments')->class('form-control')->attribute($type == 'show' ? 'readonly' : "") !!}
     </div>
 </div>
 

@@ -26,7 +26,7 @@
     <div class="col-sm-3">
         <div class="for-group">
             {!! html()->label('Enter Login Name: ') !!}
-            {!! html()->text('login_name')->class('form-control')->value($user->login_name ?? old('login_name'))->attribute('id', 'txtUserLoginName')->attribute($type == 'show' ? 'readonly' : '') !!}
+            {!! html()->text('login_name')->class('form-control')->value($user->login_name ?? old('login_name'))->attribute('id', 'txtUserLoginName')->attribute($type == 'edit' ? 'readonly' : '')->attribute($type == 'show' ? 'readonly' : '') !!}
             @error('login_name')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
@@ -48,7 +48,7 @@
             {!! html()->select('gender', [
                     'Male' => 'Male',
                     'Female' => 'Female',
-                ])->class('form-control select2')->placeholder('Select Gender')->attribute($type == 'show' ? 'readonly' : '')->attribute('id', 'slctGender')->value($user->gender ?? old('gender')) !!}
+                ])->class('form-control')->placeholder('Select Gender')->attribute($type == 'show' ? 'readonly' : '')->attribute('id', 'slctGender')->value($user->gender ?? old('gender')) !!}
             @error('gender')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
@@ -112,7 +112,7 @@
                 {!! html()->select('status', [
                         '1' => 'Active',
                         '0' => 'Inactive',
-                    ])->class('form-control')->value($user->status ?? old('status'))->placeholder('Select Status')->attribute($type == 'show' ? 'readonly' : '') !!}
+                    ])->class('form-control')->attribute('id', 'slctUserStatus')->value($user->status ?? old('status'))->placeholder('Select Status')->attribute($type == 'show' ? 'readonly' : '') !!}
             </div>
         </div>
     @endif
@@ -136,6 +136,7 @@
         <script>
             $(document).ready(function() {
                 $("#slctGender").select2();
+                $("#slctUserStatus").select2();
             });
         </script>
     @endpush

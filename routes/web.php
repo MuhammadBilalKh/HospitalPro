@@ -16,6 +16,7 @@ Route::middleware('is_user_login')->prefix("Admin")->group(function(){
     ]);
 
     Route::get('/get_child_entries',[UserController::class, 'get_child_entries'])->name('users.get_child_entries');
+    Route::get('/logout', [UserController::class, 'logout'])->name('users.logout');
 });
 
 Route::fallback(function(){

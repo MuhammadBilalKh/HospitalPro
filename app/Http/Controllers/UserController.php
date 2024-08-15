@@ -113,7 +113,6 @@ class UserController extends Controller
             "mobile_number" => "required|unique:users,mobile_number,$id,id",
             "email" => "required|email|unique:users,email,$id,id",
             'address' => 'required',
-            "profile_picture" => "required|file",
             "gender" => "required",
             "dob" => "required|date"
         ],[
@@ -175,6 +174,10 @@ class UserController extends Controller
         $authentication = Auth::attempt($credentials);
 
         if ($authentication) {
+            if(Auth::user()->status == 0){
+                Auth::logout();
+                return redirect()->back()->with("error", "Your Account Status Is Inactive");
+            }
             return redirect()->route('users.dashboard');
         } else {
             return redirect()->back()->with('error', "Invalid Login Name or Password.");
@@ -184,6 +187,7 @@ class UserController extends Controller
     public function logout()
     {
         Auth::logout();
+        return redirect()->route('users.login');
     }
 
     public function show_dashboard()

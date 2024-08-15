@@ -15,10 +15,17 @@
                     <label>Settings</label>
                 </li>
                 <li class="nav-item">
-                    <a href="/" class="nav-link "><span class="pcoded-micon"><i
+                    <a href="{{ route('users.dashboard') }}" class="nav-link "><span class="pcoded-micon"><i
                                 class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item @if (in_array(Route::currentRouteName(),[
+                    'Users.index',
+                    'Users.create',
+                    "Users.show",
+                    "Users.edit"
+                ]))
+                    active
+                @endif">
                     <a href="{{ route('Users.index') }}" class="nav-link">
                         <span class="pcoded-micon">
                             <i class="feather icon-user"></i>

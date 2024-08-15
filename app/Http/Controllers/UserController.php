@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Models\Ward;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -192,7 +191,12 @@ class UserController extends Controller
 
     public function show_dashboard()
     {
-        return view('admin.dashboard');
+        $activeUsersCount = User::where('status', USER_ACTIVE)->count();
+        $blocksCount = Block::count();
+        $departmentsCount = Department::count();
+        $wardsCount = Ward::count();
+        $totalUsers = User::count();
+        return view('admin.dashboard', compact("totalUsers","activeUsersCount", "blocksCount", "departmentsCount", "wardsCount"));
     }
 
     public function user_administration(){

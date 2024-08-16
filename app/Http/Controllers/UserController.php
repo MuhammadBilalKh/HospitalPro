@@ -6,6 +6,7 @@ use App\DataTables\UsersDataTable;
 use App\Models\{Block, Department, User, Ward};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -138,6 +139,10 @@ class UserController extends Controller
 
     public function show_login_page()
     {
+        if(Auth::user() != null){
+            return redirect()->route('users.dashboard');
+        }
+
         return view('auth.login');
     }
 

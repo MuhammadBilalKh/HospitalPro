@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\UsersDataTable;
-use App\Models\Block;
-use App\Models\Department;
-use App\Models\User;
-use App\Models\Ward;
+use App\Models\{Block, Department, User, Ward};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -18,18 +15,12 @@ class UserController extends Controller
         return $usersDataTable->render('admin.users.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $user_create_form = view('admin.users.create');
         return $user_create_form;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -80,9 +71,6 @@ class UserController extends Controller
         return redirect()->route('Users.index')->with("user-success","User Created Successfully..");
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         return view('admin.users.show',[
@@ -90,9 +78,7 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    
     public function edit(string $id)
     {
         return view('admin.users.edit',[
@@ -100,9 +86,6 @@ class UserController extends Controller
         ])->render();
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $request->validate([

@@ -4,7 +4,7 @@
 
 @section("title", $title)
 
-@section("header", $title)
+@section("header", "Vendors Registration")
 
 @section('breadcrumbs')
     @include('layout.breadcrumbs',[
@@ -22,5 +22,12 @@
 @endsection
 
 @push('script')
+    <script>
+        $(document).ready(function(){
+            $("#delivery_days").select2();
+            $("#slctVendorCity").select2();
 
+            $("#txtVendorMobileNumber").mask("0300 - 0000000");
+        });
+    </script>
 @endpush

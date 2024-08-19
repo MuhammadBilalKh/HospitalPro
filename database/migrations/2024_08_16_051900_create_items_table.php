@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->string("strength");
+            $table->string("name")->index();
+            $table->string("strength")->index();
             $table->string("description")->nullable();
-            $table->enum("item_form", ["Tablet", "Capsule", "Syrups", "Injection", "Creams and Ointment", "Gels", "Lotion", "Drop", "Inhaler", "Suspensions"]);
+            $table->enum("item_form", ["Tablet", "Capsule", "Syrups", "Injection", "Creams and Ointment", "Gels", "Lotion", "Drop", "Inhaler", "Suspensions"])->index();
             $table->integer("unit_price")->unsigned();
             $table->foreignId("user_id")->constrained("users");
             $table->foreignId("vendor_id")->constrained("vendors");

@@ -22,11 +22,3 @@
         'type' => 'create',
     ])
 @endsection
-
-@push('script')
-    <script>
-        $(document).ready(function() {
-
-        });
-    </script>
-@endpush

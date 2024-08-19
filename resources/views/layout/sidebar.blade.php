@@ -52,6 +52,10 @@
                     <ul class="pcoded-submenu">
                         <li class="nav-item @if (in_array(Route::currentRouteName(), ['Vendors.index', 'Vendors.create', 'Vendors.show', 'Vendors.edit'])) active @endif"><a
                                 href="{{ route('Vendors.index') }}">Vendors Details</a></li>
+                        <li class="nav-item @if (Route::currentRouteName() == "vendors.manage_reviews")
+                            active
+                        @endif">
+                    <a href="{{ route('vendors.manage_reviews') }}">Reviews</a></li>
                     </ul>
                 </li>
             </ul>

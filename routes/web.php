@@ -18,6 +18,8 @@ Route::middleware('is_user_login')->prefix("Admin")->group(function(){
         "Items" => ItemController::class,
     ]);
 
+    Route::get('/Vendor/Ratings', [VendorController::class, "manage_reviews"])->name("vendors.manage_reviews");
+
     Route::get('/get_child_entries',[UserController::class, 'get_child_entries'])->name('users.get_child_entries');
     Route::get('/logout', [UserController::class, 'logout'])->name('users.logout');
 });

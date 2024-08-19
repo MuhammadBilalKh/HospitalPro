@@ -6,26 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
-            $table->string("vendor_name");
-            $table->string("contact_person")->nullable();
-            $table->string("mobile_number")->nullable();
-            $table->string('email')->unique();
-            $table->string('fax_number')->nullable();
-            $table->string("city");
-            $table->string("bank_name");
-            $table->string("account_number");
-            $table->text("notes")->nullable();
-            $table->decimal("vendor_rating", 4, 2)->nullable();
-            $table->text("reviews")->nullable();
-            $table->integer("delivery_days")->unsigned()->nullable();
-            $table->tinyInteger("is_return_policy_applicable")->unsigned();
+            $table->string("vendor_name")->index();
+            $table->string("contact_person")->nullable()->index();
+            $table->string("mobile_number")->nullable()->index();
+            $table->string('email')->unique()->index();
+            $table->string('fax_number')->nullable()->index();
+            $table->string("city")->index();
+            $table->string("bank_name")->index();
+            $table->string("account_number")->index();
+            $table->decimal("vendor_rating", 4, 2)->nullable()->index();
+            $table->text("reviews")->nullable()->index();
+            $table->integer("delivery_days")->unsigned()->nullable()->index();
+            $table->tinyInteger("is_return_policy_applicable")->unsigned()->index();
             $table->foreignId('user_id')->constrained("users");
             $table->tinyInteger('purchasing_applicable')->unsigned(); //1 => Purchasing Allowed, 0 => Not Allowed
             $table->timestamps();

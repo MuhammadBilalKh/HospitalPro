@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\VendorDataTable;
 use App\Models\Vendor;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class VendorController extends Controller
@@ -10,9 +12,9 @@ class VendorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(VendorDataTable $vendorDataTable)
     {
-        //
+        return $vendorDataTable->render('admin.vendors.index');
     }
 
     /**
@@ -23,12 +25,25 @@ class VendorController extends Controller
         return view('admin.vendors.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $vendorValidatedData = $request->validate([
+            'address' => "required",
+            'vendor_name' => "required|string",
+            'mobile_number' => "required|max:15|unique:vendors,mobile_number",
+            'email' => "required|email|unique:vendors,email",
+            'city' => "required|string",
+            'bank_name' => "required",
+            'account_number' => "required|unique:vendors,account_number"
+        ], [
+            'address.required' => "Vendor Address Is a Required Field"
+        ]);
+
+        $vendorValidatedData['user_id'] = Auth::user()->id;
+
+        Vendor::create($vendorValidatedData);
+
+        return redirect()->route('Vendors.index')->with("success-create", "Vendor Registered Successfully..");
     }
 
     /**
@@ -36,7 +51,7 @@ class VendorController extends Controller
      */
     public function show(string $id)
     {
-        return view('admin.vendors.show',[
+        return view('admin.vendors.show', [
             'vendor' => Vendor::findOrFail($id)
         ]);
     }
@@ -46,7 +61,7 @@ class VendorController extends Controller
      */
     public function edit(string $id)
     {
-        return view('admin.vendors.edit',[
+        return view('admin.vendors.edit', [
             'vendor' => Vendor::findOrFail($id)
         ]);
     }
@@ -67,7 +82,8 @@ class VendorController extends Controller
         //
     }
 
-    public function manage_reviews(){
+    public function manage_reviews()
+    {
         return view('admin.vendors.reviews');
     }
 }

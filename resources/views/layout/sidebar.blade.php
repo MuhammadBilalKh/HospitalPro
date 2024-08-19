@@ -18,14 +18,7 @@
                     <a href="{{ route('users.dashboard') }}" class="nav-link "><span class="pcoded-micon"><i
                                 class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
                 </li>
-                <li class="nav-item @if (in_array(Route::currentRouteName(),[
-                    'Users.index',
-                    'Users.create',
-                    "Users.show",
-                    "Users.edit"
-                ]))
-                    active
-                @endif">
+                <li class="nav-item @if (in_array(Route::currentRouteName(), ['Users.index', 'Users.create', 'Users.show', 'Users.edit'])) active @endif">
                     <a href="{{ route('Users.index') }}" class="nav-link">
                         <span class="pcoded-micon">
                             <i class="feather icon-user"></i>
@@ -35,7 +28,7 @@
                 </li>
                 <li class="nav-item pcoded-hasmenu">
                     <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i
-                                class="feather icon-box"></i></span><span class="pcoded-mtext">Settings</span></a>
+                                class="feather icon-settings"></i></span><span class="pcoded-mtext">Settings</span></a>
                     <ul class="pcoded-submenu">
                         <li class="nav-item @if (in_array(Route::currentRouteName(), ['Blocks.index', 'Blocks.create', 'Blocks.show', 'Blocks.edit'])) active @endif"><a
                                 href="{{ route('Blocks.index') }}">Manage Blocks</a></li>
@@ -53,7 +46,16 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item pcoded-hasmenu">
+                    <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i
+                                class="feather icon-box"></i></span><span class="pcoded-mtext">Vendors</span></a>
+                    <ul class="pcoded-submenu">
+                        <li class="nav-item @if (in_array(Route::currentRouteName(), ['Vendors.index', 'Vendors.create', 'Vendors.show', 'Vendors.edit'])) active @endif"><a
+                                href="{{ route('Vendors.index') }}">Vendors Details</a></li>
+                    </ul>
+                </li>
             </ul>
+
         </div>
     </div>
 </nav>

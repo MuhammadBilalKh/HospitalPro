@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Vendor;
 use Illuminate\Http\Request;
 
-class VendorController extends Controller
+class ItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +19,7 @@ class VendorController extends Controller
      */
     public function create()
     {
-        return view('admin.vendors.create');
+        //
     }
 
     /**
@@ -36,9 +35,7 @@ class VendorController extends Controller
      */
     public function show(string $id)
     {
-        return view('admin.vendors.show',[
-            'vendor' => Vendor::findOrFail($id)
-        ]);
+        //
     }
 
     /**
@@ -46,9 +43,7 @@ class VendorController extends Controller
      */
     public function edit(string $id)
     {
-        return view('admin.vendors.edit',[
-            'vendor' => Vendor::findOrFail($id)
-        ]);
+        //
     }
 
     /**
@@ -65,9 +60,5 @@ class VendorController extends Controller
     public function destroy(string $id)
     {
         //
-    }
-
-    public function manage_reviews(){
-        return view('admin.vendors.reviews');
     }
 }

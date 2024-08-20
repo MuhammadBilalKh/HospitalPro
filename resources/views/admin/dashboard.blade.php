@@ -75,3 +75,15 @@
         </div>
     </div>
 @endsection
+
+@push('script')
+    <script>
+        $(document).ready(function(){
+            
+        });
+
+        function RenderTypeCount(model){
+
+        }
+    </script>
+@endpush

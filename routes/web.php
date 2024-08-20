@@ -21,6 +21,8 @@ Route::middleware('is_user_login')->prefix("Admin")->group(function(){
     Route::get('/Vendor/Ratings', [VendorController::class, "manage_reviews"])->name("vendors.manage_reviews");
 
     Route::get('/get_child_entries',[UserController::class, 'get_child_entries'])->name('users.get_child_entries');
+    Route::post('/model_count/{model}', [UserController::class, 'get_model_count'])->name('users.get_model_count');
+
     Route::get('/logout', [UserController::class, 'logout'])->name('users.logout');
 });
 

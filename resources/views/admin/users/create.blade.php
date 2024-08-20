@@ -9,8 +9,9 @@
     ])
 @endsection
 
+@section('header', "Register User")
+
 @section('content')
-    @section('header', "Register User")
     @include('admin.users._form', [
         'user' => null,
         'action' => route('Users.store'),

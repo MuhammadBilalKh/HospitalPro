@@ -203,4 +203,8 @@ class UserController extends Controller
             return response()->json(['data' => Ward::where('department_id', $request->parent_id)->pluck("name",'id')]);
         }
     }
+
+    public function get_model_count(Request $request){
+        return true;
+    }
 }

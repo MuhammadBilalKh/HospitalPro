@@ -47,13 +47,13 @@ And optionally register an alias for the facade.
 Elements—classes under the `Spatie\Html\Elements` namespace—are generally created via a `Spatie\Html\Html` builder instance.
 
 ```php
-html()->span()->text('Hello world!');
+Html::span()->text('Hello world!');
 ```
 
 Element attributes and contents are modified via with fluent methods which return a new instance. This means element instances are immutable.
 
 ```php
-$icon = html()->span()->class('fa');
+$icon = Html::span()->class('fa');
 
 $icon->class('fa-eye'); // '<span class="fa fa-eye"></span>'
 $icon->class('fa-eye-slash'); // '<span class="fa fa-eye-slash"></span>'
@@ -65,10 +65,10 @@ By convention, we assume that builder methods will modify values to our advantag
 
 ```php
 // This will try to resolve an initial value, and fall back to 'hello@example.com'
-$email = html()->email('email', 'hello@example.com');
+$email = Html::email('email', 'hello@example.com');
 
 // This will always have 'hello@example.com' as it's value
-$email = html()->email('email')->value('hello@example.com');
+$email = Html::email('email')->value('hello@example.com');
 ```
 
 ## Upgrading

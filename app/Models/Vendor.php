@@ -31,4 +31,16 @@ class Vendor extends Model
     public function createdBy(){
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function setVendorNameAttribute($val){
+        return $this->attributes['vendor_name'] = ucwords($val);
+    }
+
+    public function setContactPersonAttribute($val){
+        return $this->attributes['contact_person'] = ucwords($val);
+    }
+
+    public function setBankNameAttribute($val){
+        return $this->attributes['bank_name'] = strtoupper($val);
+    }
 }

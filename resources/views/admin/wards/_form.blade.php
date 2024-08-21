@@ -1,15 +1,15 @@
-{!! html()->form('POST', $action)->open() !!}
+{!! Html::form('POST', $action)->open() !!}
 
 @if ($type == 'edit')
     @method('PUT')
 @endif
 
-{!! html()->div()->class('row')->open() !!}
+{!! Html::div()->class('row')->open() !!}
 
 <div class="col-sm-4">
     <div class="form-group">
-        {!! html()->label('Ward Name: ') !!}
-        {!! html()->text('name')->class('form-control')->value($ward->name ?? '')->attribute($type == 'show' ? 'readonly' : '') !!}
+        {!! Html::label('Ward Name: ') !!}
+        {!! Html::text('name')->class('form-control')->value($ward->name ?? '')->attribute($type == 'show' ? 'readonly' : '') !!}
         @error('name')
             <span class="text-danger">{{ $message }}</span>
         @enderror
@@ -18,16 +18,16 @@
 
 <div class="col-sm-3" @if($type == 'edit' || $type == 'show') hidden @endif>
     <div class="form-group">
-        {!! html()->label('Select Block: ') !!}
-        {!! html()->select('blocks', $blocks ?? [])->attribute('id', 'slctBlocks')->class('form-control')->placeholder('Select Blocks') !!}
+        {!! Html::label('Select Block: ') !!}
+        {!! Html::select('blocks', $blocks ?? [])->attribute('id', 'slctBlocks')->class('form-control')->placeholder('Select Blocks') !!}
         <span id="blockResult"></span>
     </div>
 </div>
 
 <div class="col-sm-3" id="divDepartments">
     <div class="form-group">
-        {!! html()->label('Select Department: ') !!}
-        {!! html()->select('department_id', $departments ?? [])->attribute('id', 'slctDepartments')->class('form-control') !!}
+        {!! Html::label('Select Department: ') !!}
+        {!! Html::select('department_id', $departments ?? [])->attribute('id', 'slctDepartments')->class('form-control') !!}
         @error('department_id')
             <span class="text-danger">{{ $message }}</span>
         @enderror
@@ -36,25 +36,25 @@
 
 <div class="col-sm-12">
     <div class="form-group">
-        {!! html()->label('Comments (if any): ') !!}
-        {!! html()->text('comments')->class('form-control')->attribute($type == 'show' ? 'readonly' : "") !!}
+        {!! Html::label('Comments (if any): ') !!}
+        {!! Html::text('comments')->class('form-control')->attribute($type == 'show' ? 'readonly' : "") !!}
     </div>
 </div>
 
 <div class="col-sm-4" id="divButtons">
     <div class="form-group">
         @if ($type == 'create')
-            {!! html()->submit('Submit')->class('btn btn-sm small btn-success') !!}
+            {!! Html::submit('Submit')->class('btn btn-sm small btn-success') !!}
         @elseif($type == 'edit')
-            {!! html()->submit('Update')->class('btn btn-sm small btn-primary') !!}
+            {!! Html::submit('Update')->class('btn btn-sm small btn-primary') !!}
         @endif
         <a href="{{ route('Wards.index') }}" class="btn btn-sm btn-danger small">Cancel</a>
     </div>
 </div>
 
-{!! html()->div()->close() !!}
+{!! Html::div()->close() !!}
 
-{!! html()->form()->close() !!}
+{!! Html::form()->close() !!}
 
 @push('script')
 @if ($type == 'create')

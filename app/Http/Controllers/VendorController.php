@@ -34,7 +34,8 @@ class VendorController extends Controller
             'email' => "required|email|unique:vendors,email",
             'city' => "required|string",
             'bank_name' => "required",
-            'account_number' => "required|unique:vendors,account_number"
+            'account_number' => "required|unique:vendors,account_number",
+            'is_return_policy_applicable' => "required"
         ], [
             'address.required' => "Vendor Address Is a Required Field"
         ]);

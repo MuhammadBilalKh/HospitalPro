@@ -37,25 +37,25 @@
                     <div class="mb-4">
                         <i class="feather icon-unlock auth-icon"></i>
                     </div>
-                    {!! html()->form('POST', route('user.authenticate'))->open() !!}
+                    {!! Html::form('POST', route('user.authenticate'))->open() !!}
                     @csrf
                     <h3 class="mb-4">Login</h3>
 
                     <div class="form-group mb-3">
-                        {!! html()->text('login_name')->class('form-control')->value(old('login_name'))->placeholder('Enter Login Name') !!}
+                        {!! Html::text('login_name')->class('form-control')->value(old('login_name'))->placeholder('Enter Login Name') !!}
                         @error('login_name')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="form-group mb-4">
-                        {!! html()->password('password')->class('form-control')->value(old('password'))->placeholder('Enter Password') !!}
+                        {!! Html::password('password')->class('form-control')->value(old('password'))->placeholder('Enter Password') !!}
                         @error('password')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    {!! html()->submit('Login')->class('btn btn-sm btn-primary') !!}
+                    {!! Html::submit('Login')->class('btn btn-sm btn-primary') !!}
                     <p class="mb-2 text-muted">Forgot password? <a href="auth-reset-password.html">Reset</a></p>
-                    {!! html()->form()->close() !!}
+                    {!! Html::form()->close() !!}
                 </div>
             </div>
         </div>

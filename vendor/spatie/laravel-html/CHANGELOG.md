@@ -77,7 +77,7 @@ All notable changes to `laravel-html` will be documented in this file.
 
 ### What's Changed
 
-* Fix docblock to solve phpstan errors when passing an array to html()->div() by @SanderMuller in https://github.com/spatie/laravel-html/pull/210
+* Fix docblock to solve phpstan errors when passing an array to Html::div() by @SanderMuller in https://github.com/spatie/laravel-html/pull/210
 * Documentation on how to extend the package by @azamtav in https://github.com/spatie/laravel-html/pull/204
 
 ### New Contributors

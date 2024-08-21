@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\UsersDataTable;
-use App\Models\{Block, Department, User, Ward};
+use App\Models\{Block, Department, User, Vendor, Ward};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -34,7 +34,7 @@ class UserController extends Controller
             "profile_picture" => "required|file",
             "gender" => "required",
             "dob" => "required|date"
-        ],[
+        ], [
             'name.required' => "Name is required",
             "login_name.required" => "Login Name is Required",
             "login_name.unique" => "Login Name Already Exist",
@@ -50,7 +50,7 @@ class UserController extends Controller
             "profile_picture.required" => "Profile Pic Is Mandatory"
         ]);
 
-        if($request->hasFile("profile_picture")){
+        if ($request->hasFile("profile_picture")) {
             $path = $request->file("profile_picture")->store("public");
         }
 
@@ -69,20 +69,20 @@ class UserController extends Controller
             'dob' => $request->dob
         ]);
 
-        return redirect()->route('Users.index')->with("user-success","User Created Successfully..");
+        return redirect()->route('Users.index')->with("user-success", "User Created Successfully..");
     }
 
     public function show(string $id)
     {
-        return view('admin.users.show',[
+        return view('admin.users.show', [
             'user' => User::findOrFail($id)
         ]);
     }
 
-    
+
     public function edit(string $id)
     {
-        return view('admin.users.edit',[
+        return view('admin.users.edit', [
             'user' => User::findOrFail($id)
         ])->render();
     }
@@ -98,7 +98,7 @@ class UserController extends Controller
             'address' => 'required',
             "gender" => "required",
             "dob" => "required|date"
-        ],[
+        ], [
             'name.required' => "Name is required",
             "login_name.required" => "Login Name is Required",
             "login_name.unique" => "Login Name Already Exist",
@@ -124,8 +124,8 @@ class UserController extends Controller
             'dob' => $request->dob
         ]);
 
-        if($user){
-            return redirect()->route('Users.index')->with("success",'User Updated Successfully..');
+        if ($user) {
+            return redirect()->route('Users.index')->with("success", 'User Updated Successfully..');
         }
     }
 
@@ -139,7 +139,7 @@ class UserController extends Controller
 
     public function show_login_page()
     {
-        if(Auth::user() != null){
+        if (Auth::user() != null) {
             return redirect()->route('users.dashboard');
         }
 
@@ -161,7 +161,7 @@ class UserController extends Controller
         $authentication = Auth::attempt($credentials);
 
         if ($authentication) {
-            if(Auth::user()->status == 0){
+            if (Auth::user()->status == 0) {
                 Auth::logout();
                 return redirect()->back()->with("error", "Your Account Status Is Inactive");
             }
@@ -184,27 +184,36 @@ class UserController extends Controller
         $departmentsCount = Department::count();
         $wardsCount = Ward::count();
         $totalUsers = User::count();
-        return view('admin.dashboard', compact("totalUsers","activeUsersCount", "blocksCount", "departmentsCount", "wardsCount"));
+        return view('admin.dashboard', compact("totalUsers", "activeUsersCount", "blocksCount", "departmentsCount", "wardsCount"));
     }
 
-    public function user_administration(){
-        return view('admin.users.manage_administration',[
+    public function user_administration()
+    {
+        return view('admin.users.manage_administration', [
             'blocks' => Block::GetBlocksList()
         ]);
     }
 
-    public function get_child_entries(Request $request){
+    public function get_child_entries(Request $request)
+    {
 
-        if($request->parent == "block"){
-            return response()->json(['data' => Department::where('block_id', $request->parent_id)->pluck("department_name",'id')]);            
-        }
-
-        else if($request->parent == "department"){
-            return response()->json(['data' => Ward::where('department_id', $request->parent_id)->pluck("name",'id')]);
+        if ($request->parent == "block") {
+            return response()->json(['data' => Department::where('block_id', $request->parent_id)->pluck("department_name", 'id')]);
+        } else if ($request->parent == "department") {
+            return response()->json(['data' => Ward::where('department_id', $request->parent_id)->pluck("name", 'id')]);
         }
     }
 
-    public function get_model_count(Request $request){
-        return true;
+    public function get_model_count($model)
+    {
+        return response()->json(
+            match ($model) {
+                MODEL_TYPE_USER => User::count(),
+                MODEL_TYPE_BLOCK => Block::count(),
+                MODEL_TYPE_DEPARTMENT => Department::count(),
+                MODEL_TYPE_WARD => Ward::count(),
+                MODEL_TYPE_VENDOR => Vendor::count()
+            }
+        );
     }
 }

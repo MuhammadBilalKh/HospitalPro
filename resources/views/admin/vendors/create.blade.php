@@ -26,6 +26,7 @@
         $(document).ready(function(){
             $("#delivery_days").select2();
             $("#slctVendorCity").select2();
+            $("#slctReturnPolicyApplicable").select2();
 
             $("#txtVendorMobileNumber").mask("0300 - 0000000");
         });

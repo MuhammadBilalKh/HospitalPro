@@ -48,3 +48,24 @@ defined("MODELS") or define("MODELS", [
     "Store Request",
     "Vendor"
 ]);
+
+defined("SPECIALIZATIONS") or define("SPECIALIZATIONS", [
+    "Cardiology",
+    "Neurology",
+    "Orthopedics",
+    "Pediatrics",
+    "General Surgery",
+    "Dermatology",
+    "Gynecology",
+    "Oncology",
+    "Radiology",
+    "Psychiatry",
+    "Anesthesiology",
+    "Ophthalmology",
+    "ENT",
+    "Urology",
+    "Nephrology",
+    "Gastroenterology",
+    "Endocrinology",
+    "Pulmonology"
+]);

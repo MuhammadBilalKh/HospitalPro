@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{BlockController, DepartmentController, ItemController, UserController, VendorController, WardController};
+use App\Http\Controllers\{BlockController, DepartmentController, DoctorController, ItemController, PatientController, UserController, VendorController, WardController};
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [UserController::class, 'show_login_page'])->name('users.login');
@@ -16,6 +16,8 @@ Route::middleware('is_user_login')->prefix("Admin")->group(function(){
         'Wards' => WardController::class,
         "Vendors" => VendorController::class,
         "Items" => ItemController::class,
+        'Doctor' => DoctorController::class,
+        'Patient' => PatientController::class,
     ]);
 
     Route::get('/Vendor/Ratings', [VendorController::class, "manage_reviews"])->name("vendors.manage_reviews");

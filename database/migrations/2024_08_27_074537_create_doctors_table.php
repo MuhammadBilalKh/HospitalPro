@@ -22,26 +22,7 @@ return new class extends Migration
             $table->string("mobile_number")->unique()->index();
             $table->string("email_address")->unique()->index();
             $table->string("medical_license_number")->index();
-            $table->enum("specialization", [
-                "Cardiology",
-                "Neurology",
-                "Orthopedics",
-                "Pediatrics",
-                "General Surgery",
-                "Dermatology",
-                "Gynecology",
-                "Oncology",
-                "Radiology",
-                "Psychiatry",
-                "Anesthesiology",
-                "Ophthalmology",
-                "ENT",
-                "Urology",
-                "Nephrology",
-                "Gastroenterology",
-                "Endocrinology",
-                "Pulmonology"
-            ])->index();
+            $table->enum("specialization", SPECIALIZATIONS)->index();
             $table->text("address");
             $table->string('qualification')->index();
             $table->integer("years_of_experience")->unsigned();

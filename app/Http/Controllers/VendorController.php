@@ -29,6 +29,7 @@ class VendorController extends Controller
     {
         $vendorValidatedData = $request->validate([
             'address' => "required",
+            'contact_person' => "required|string",
             'vendor_name' => "required|string",
             'mobile_number' => "required|max:15|unique:vendors,mobile_number",
             'email' => "required|email|unique:vendors,email",

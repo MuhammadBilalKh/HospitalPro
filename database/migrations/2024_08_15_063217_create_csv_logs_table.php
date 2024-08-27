@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->string("model_name");
             $table->string("file_name");
-            $table->json('entries');
             $table->timestamps();
         });
     }

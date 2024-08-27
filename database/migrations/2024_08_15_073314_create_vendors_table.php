@@ -19,11 +19,11 @@ return new class extends Migration
             $table->string("bank_name")->index();
             $table->string("account_number")->index();
             $table->decimal("vendor_rating", 4, 2)->nullable()->index();
-            $table->text("reviews")->nullable()->index();
+            $table->string("reviews", 200)->nullable()->index();
             $table->integer("delivery_days")->unsigned()->nullable()->index();
             $table->tinyInteger("is_return_policy_applicable")->unsigned()->index();
             $table->foreignId('user_id')->constrained("users");
-            $table->tinyInteger('purchasing_applicable')->unsigned(); //1 => Purchasing Allowed, 0 => Not Allowed
+            $table->tinyInteger('purchasing_applicable')->unsigned()->nullable(); //1 => Purchasing Allowed, 0 => Not Allowed
             $table->timestamps();
         });
     }

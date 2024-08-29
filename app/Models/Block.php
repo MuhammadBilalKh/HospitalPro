@@ -10,7 +10,7 @@ class Block extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['block_name', 'user_id', 'comments'];
+    protected $fillable = ['block_name', 'user_id', 'comments', "file_name"];
 
     public function getUser()
     {

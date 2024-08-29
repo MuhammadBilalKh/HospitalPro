@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\DoctorDataTable;
+use App\Http\Requests\DoctorFormRequest;
 use App\Models\Department;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use PhpParser\Comment\Doc;
 
 class DoctorController extends Controller
 {
@@ -34,29 +35,30 @@ class DoctorController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(DoctorFormRequest $request)
     {
-        $doctorValidatedData = $request->validate([
-            'login_name' => 'required|string|unique:doctors,login_name|unique:users,login_name',
-            'password' => "required",
-            "confirm_password" => "required|same:password",
-            "doctor_name" => "required|string",
-            'mobile_number' => "required|unique:doctors,mobile_number",
-            "email_address" => "required|unique:doctors,email_address|unique:users,email",
-            "qualification" => "required",
-            'address' => "string",
-            "department_id" => "required|numeric",
-            'medical_license_number' => "required|numeric",
-            'gender' => "required",
-            'years_of_experience' => "required|numeric",
-            'cnic' => "required|unique:doctors,cnic|unique:users,cnic"
+        $profilePicture = Storage::putFile("profile_pictures", $request->file('profile_picture'));
+
+        Doctor::create([
+            'login_name' => $request->login_name,
+            'qualification' => $request->qualification,
+            'address' => $request->address,
+            'years_of_experience' => $request->years_of_experience,
+            'gender' => $request->gender,
+            'is_first_login' => 0,
+            'user_id' => Auth::user()->id,
+            'email_verification_token' => Str::random(100),
+            'cnic' => $request->cnic,
+            'mobile_number' => $request->mobile_number,
+            'email_address' => $request->email_address,
+            'department_id' => $request->department_id,
+            'medical_license_number' => $request->medical_license_number,
+            'profile_picture' => $profilePicture,
+            'doctor_name' => $request->doctor_name,
+            'consulting_start_time' => $request->consulting_start_time,
+            'consulting_end_time' => $request->consulting_end_time,
+            'password' => bcrypt($request->password)
         ]);
-
-        $doctorValidatedData['is_first_login'] = 0;
-        $doctorValidatedData['user_id'] = Auth::user()->id;
-        $doctorValidatedData['email_verification_token'] = Str::random(100);
-
-        Doctor::create($doctorValidatedData);
 
         return redirect()->route('Doctor.index')->with('create-success', "Doctor Registered Successfully..");
     }
@@ -66,7 +68,11 @@ class DoctorController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $docDetails = Doctor::findOrFail($id);
+        return view('admin.doctors.show',[
+            'doctorData' => $docDetails,
+            'departments' => Department::GetDepartmentList($docDetails->department_id)
+        ]);
     }
 
     /**
@@ -74,9 +80,10 @@ class DoctorController extends Controller
      */
     public function edit(string $id)
     {
+        $doctorDetails = Doctor::find($id);
         return view('admin.doctors.edit',[
-            'doctorData' => Doctor::find($id),
-            'departments' => Department::GetDepartmentList()
+            'doctorData' => $doctorDetails,
+            'departments' => Department::GetDepartmentList($doctorDetails->department_id)
         ]);
     }
 

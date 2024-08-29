@@ -15,7 +15,9 @@
 
 @section('content')
     <a href="{{ route('Doctor.create') }}" class="btn btn-sm small btn-primary float-right">Register Doctor</a>
-    {!! $dataTable->table(['class' => "table table-hover table-striped table-bordered"]) !!}
+    <div class="table-responsive">
+        {!! $dataTable->table(['class' => "table table-hover table-striped table-bordered"]) !!}
+    </div>
 @endsection
 
 @push('script')

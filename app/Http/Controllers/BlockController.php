@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\BlocksDataTable;
 use App\Models\Block;
+use App\Services\ImportBlockServices;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -31,22 +32,17 @@ class BlockController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'block_name' => "required|unique:blocks,block_name",
-            'comments' => 'nullable|string'
-        ],[
-            'block_name.required' => "Block Name Is Required",
-            'block_name.unique' => "This Block Name is Already Registered"
-        ]);
+        ini_set('memory_limit', '1024M');
+        ini_set("max_execution_time", "0");
 
-        Block::create([
-            'block_name' => $request->block_name,
-            'comments' => $request->comments,
-            'user_id' => Auth::user()->id,
-            'created_at' => date('m/d/Y h:i:s a', time())
-        ]);
+        if($request->hasFile("block_csv")){
+            static::ImportBlocks($request->file("block_csv"));
+        }
 
-        return redirect()->route('Blocks.index')->with("create_success", "Block Registered Successfully..");
+        else {
+            static::RegisterBlock($request);
+            return redirect()->route('Blocks.index')->with("create_success", "Block Registered Successfully..");
+        }
     }
 
     /**
@@ -96,5 +92,57 @@ class BlockController extends Controller
     public function destroy(Block $block)
     {
         //
+    }
+
+    private static function RegisterBlock($formRequest){
+        $formRequest->validate([
+            'block_name' => "required|unique:blocks,block_name",
+            'comments' => 'nullable|string'
+        ],[
+            'block_name.required' => "Block Name Is Required",
+            'block_name.unique' => "This Block Name is Already Registered"
+        ]);
+
+        Block::create([
+            'block_name' => $formRequest->block_name,
+            'comments' => $formRequest->comments,
+            'user_id' => Auth::user()->id,
+            'created_at' => date('m/d/Y h:i:s a', time())
+        ]);
+
+        return true;
+    }
+
+    private static function ImportBlocks($csvFile){
+        $blockCsvData = ImportBlockServices::ReadCsvData($csvFile);
+        $headers = ["Block Name", "Comments"];
+
+        if(empty(ImportBlockServices::CheckCsvHeaders($blockCsvData[0], $headers))){
+            unset($blockCsvData[0]);
+
+            $duplicationError = ImportBlockServices::CheckDuplications($blockCsvData);
+
+            if(empty($duplicationError)){
+                $validationErrors = ImportBlockServices::ValidateBlockCsvData($blockCsvData);
+
+                if(empty($validationErrors)){
+                    $count = ImportBlockServices::SaveBlockCsvData($blockCsvData, $csvFile);
+
+                    return redirect()->route('Blocks.index')->with("import_success", "$count Entries Imported");
+                }
+                
+                else {
+                    return redirect()->back()->with("csv_error", $validationErrors);
+                }
+            }
+
+            else {
+                return redirect()->back()->with("csv_error", $duplicationError);
+            }
+        }
+
+        else {
+            return redirect()->back()->with('csv_error', "Invalid Column Headers");
+        }
     }
 }

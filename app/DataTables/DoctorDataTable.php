@@ -22,10 +22,23 @@ class DoctorDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', function($data){
-                return $data->login_name;
+        ->addColumn('action', function ($data) {
+            $btnActions = "<a href='" . route('Doctor.edit', $data->id) . "' id='" . $data->id . "' class='btn btn-outline-primary border-0 text-center rounded-circle'><i class='feather text-center icon-edit-2'></i></a>";
+            $btnActions .= "<a href='".route('Doctor.show', $data->id)."' class='btn btn-outline-warning border-0 text-center rounded-circle'><i class='feather text-center icon-eye'></i></a>";
+            return $btnActions;
+        })
+            ->addColumn('status', function ($data) {
+                if ($data->account_status == DOCTOR_ACCOUNT_ACTIVE) {
+                    return '<span class="badge badge-success">Active</span>';
+                } else {
+                    return '<span class="badge badge-danger">Inactive</span>';
+                }
             })
-            ->setRowId('id');
+            ->addColumn("department", function($data){
+                return $data->doc_department->department_name;
+            })
+            ->setRowId('id')
+            ->rawColumns(['action', 'status', 'department']);
     }
 
     /**
@@ -65,10 +78,12 @@ class DoctorDataTable extends DataTable
     {
         return [
             Column::make("doctor_name"),
-            Column::make("login_name"),
             Column::make("mobile_number"),
             Column::make("email_address"),
-            Column::make("departent_id")
+            Column::make("cnic"),
+            Column::make("department"),
+            Column::make("status"),
+            Column::make("action"),
         ];
     }
 

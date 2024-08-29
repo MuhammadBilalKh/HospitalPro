@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Doctor;
+use App\Models\Patient;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class DoctorDataTable extends DataTable
+class PatientDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -22,29 +22,16 @@ class DoctorDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function ($data) {
-            $btnActions = "<a href='" . route('Doctor.edit', $data->id) . "' id='" . $data->id . "' class='btn btn-outline-primary border-0 text-center rounded-circle'><i class='feather text-center icon-edit-2'></i></a>";
-            $btnActions .= "<a href='".route('Doctor.show', $data->id)."' class='btn btn-outline-warning border-0 text-center rounded-circle'><i class='feather text-center icon-eye'></i></a>";
-            return $btnActions;
-        })
-            ->addColumn('status', function ($data) {
-                if ($data->account_status == DOCTOR_ACCOUNT_ACTIVE) {
-                    return '<span class="badge badge-success">Active</span>';
-                } else {
-                    return '<span class="badge badge-danger">Inactive</span>';
-                }
+            ->addColumn('action', function($patient){
+                return $patient->patient_name;
             })
-            ->addColumn("department", function($data){
-                return $data->doc_department->department_name;
-            })
-            ->setRowId('id')
-            ->rawColumns(['action', 'status', 'department']);
+            ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Doctor $model): QueryBuilder
+    public function query(Patient $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -55,7 +42,7 @@ class DoctorDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('doctor-table')
+                    ->setTableId('patient-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -77,14 +64,16 @@ class DoctorDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make("doctor_name"),
-            Column::make("specialization"),
-            Column::make("mobile_number"),
-            Column::make("email_address"),
+            Column::make('patient_name'),
+            Column::make("father_name"),
             Column::make("cnic"),
-            Column::make("department"),
-            Column::make("status"),
-            Column::make("action"),
+            Column::make("mobile_number"),
+            Column::make('created_at'),
+            Column::computed('action')
+                  ->exportable(false)
+                  ->printable(false)
+                  ->width(60)
+                  ->addClass('text-center'),
         ];
     }
 
@@ -93,6 +82,6 @@ class DoctorDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Doctor_' . date('YmdHis');
+        return 'Patient_' . date('YmdHis');
     }
 }

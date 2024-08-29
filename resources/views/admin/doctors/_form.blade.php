@@ -2,13 +2,15 @@
 
 @if ($type == 'edit')
     @method('PUT')
+
+    {!! Html::hidden("doctor_id")->value($doctor->id) !!}
 @endif
 
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-4"  @if($type == 'edit') style="display: none;" @endif>
         <div class="form-group">
             {!! Html::label('Profile Picture: ') !!}
-            {!! Html::file('profile_picture')->class('form-control')->attribute("accept", "images/*") !!}
+            {!! Html::file('profile_picture')->class('form-control')->attribute('accept', 'images/*') !!}
             @error('profile_picture')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
@@ -35,30 +37,32 @@
     <div class="col-sm-4">
         <div class="form-group">
             {!! Html::label('Login Name: ') !!}
-            {!! Html::text('login_name')->class('form-control')->value($doctor->login_name ?? old('login_name')) !!}
+            {!! Html::text('login_name')->class('form-control')->value($doctor->login_name ?? old('login_name'))->attribute($type == 'edit' ? 'readonly' : "") !!}
             @error('login_name')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>
     </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            {!! Html::label('Password: ') !!}
-            {!! Html::password('password')->class('form-control')->value($doctor->password ?? old('password')) !!}
-            @error('password')
-                <span class="text-danger">{{ $message }}</span>
-            @enderror
+    @if ($type == 'create')
+        <div class="col-sm-4">
+            <div class="form-group">
+                {!! Html::label('Password: ') !!}
+                {!! Html::password('password')->class('form-control')->value($doctor->password ?? old('password')) !!}
+                @error('password')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
         </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            {!! Html::label('Confirm Password: ') !!}
-            {!! Html::password('confirm_password')->class('form-control')->value(old('confirm_password')) !!}
-            @error('confirm_password')
-                <span class="text-danger">{{ $message }}</span>
-            @enderror
+        <div class="col-sm-4">
+            <div class="form-group">
+                {!! Html::label('Confirm Password: ') !!}
+                {!! Html::password('confirm_password')->class('form-control')->value(old('confirm_password')) !!}
+                @error('confirm_password')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
         </div>
-    </div>
+    @endif
 </div>
 
 <div class="row mt-1">

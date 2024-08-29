@@ -1,4 +1,4 @@
-{!! Html::form('POST', $action)->open() !!}
+{!! Html::form('POST', $action)->attribute("enctype", "multipart/form-data")->open() !!}
 
 @if ($type == 'edit')
     @method('PUT')
@@ -42,7 +42,11 @@
             </div>
         </div>
         <div class="col-sm-3 mt-4">
+            {!! Html::submit("Upload")->class("btn btn-sm small btn-info") !!}
             <a href="{{ route('Blocks.index') }}" class="btn btn-danger btn-sm">Cancel</a>
+        </div>
+        <div class="col-sm-1 mt-4">
+            <a href="{{ asset('ImportBlocks.csv') }}" download class="btn btn-sm small btn-warning">DOWNLOAD TEMPLATE</a>
         </div>
     @endif
 </div>

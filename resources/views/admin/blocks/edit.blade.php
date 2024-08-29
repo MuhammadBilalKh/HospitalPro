@@ -19,5 +19,6 @@
         'action' => route('Blocks.update', $block->id),
         'block' => $block,
         'type' => 'edit',
+        'format' => 'register'
     ])
 @endsection

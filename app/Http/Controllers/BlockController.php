@@ -120,29 +120,36 @@ class BlockController extends Controller
         if(empty(ImportBlockServices::CheckCsvHeaders($blockCsvData[0], $headers))){
             unset($blockCsvData[0]);
 
-            $duplicationError = ImportBlockServices::CheckDuplications($blockCsvData);
-
-            if(empty($duplicationError)){
-                $validationErrors = ImportBlockServices::ValidateBlockCsvData($blockCsvData);
-
-                if(empty($validationErrors)){
-                    $count = ImportBlockServices::SaveBlockCsvData($blockCsvData, $csvFile);
-
-                    return redirect()->route('Blocks.index')->with("import_success", "$count Entries Imported");
+            if(!empty($blockCsvData)){
+                
+                $duplicationError = ImportBlockServices::CheckDuplications($blockCsvData);
+                
+                if(empty($duplicationError)){
+                    $validationErrors = ImportBlockServices::ValidateBlockCsvData($blockCsvData);
+                    
+                    if(empty($validationErrors)){
+                        $count = ImportBlockServices::SaveBlockCsvData($blockCsvData, $csvFile);
+                        
+                        return redirect()->route('Blocks.index')->with("import_success", "$count Entries Imported");
+                    }
+                    
+                    else {
+                        return redirect()->back()->with("csv_error", $validationErrors);
+                    }
                 }
                 
                 else {
-                    return redirect()->back()->with("csv_error", $validationErrors);
+                    return redirect()->back()->with("csv_error", $duplicationError);
                 }
             }
-
+            
             else {
-                return redirect()->back()->with("csv_error", $duplicationError);
+                return redirect()->back()->with('csv_error', "Invalid Column Headers");
             }
         }
 
         else {
-            return redirect()->back()->with('csv_error', "Invalid Column Headers");
+            return redirect()->back()->with("csv_err", "Empty CSV Uploaded.");
         }
     }
 }

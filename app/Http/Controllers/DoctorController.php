@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\DoctorDataTable;
 use App\Http\Requests\DoctorFormRequest;
+use App\Http\Requests\DoctorFormUpdateRequest;
 use App\Models\Department;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        return view('admin.doctors.create',[
+        return view('admin.doctors.create', [
             'departments' => Department::GetDepartmentList(),
             'specializations' => SPECIALIZATIONS
         ]);
@@ -69,7 +70,7 @@ class DoctorController extends Controller
     public function show(string $id)
     {
         $docDetails = Doctor::findOrFail($id);
-        return view('admin.doctors.show',[
+        return view('admin.doctors.show', [
             'doctorData' => $docDetails,
             'departments' => Department::GetDepartmentList($docDetails->department_id)
         ]);
@@ -81,18 +82,37 @@ class DoctorController extends Controller
     public function edit(string $id)
     {
         $doctorDetails = Doctor::find($id);
-        return view('admin.doctors.edit',[
+        return view('admin.doctors.edit', [
             'doctorData' => $doctorDetails,
-            'departments' => Department::GetDepartmentList($doctorDetails->department_id)
+            'departments' => Department::GetDepartmentList()
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(DoctorFormUpdateRequest $request, string $id)
     {
-        //
+        $updateData = Doctor::where('id', $id)->update([
+            'qualification' => $request->qualification,
+            'address' => $request->address,
+            'years_of_experience' => $request->years_of_experience,
+            'gender' => $request->gender,
+            'user_id' => Auth::user()->id,
+            'cnic' => $request->cnic,
+            'mobile_number' => $request->mobile_number,
+            'email_address' => $request->email_address,
+            'department_id' => $request->department_id,
+            'medical_license_number' => $request->medical_license_number,
+            'doctor_name' => $request->doctor_name,
+            'consulting_start_time' => $request->consulting_start_time,
+            'consulting_end_time' => $request->consulting_end_time,
+            'specialization' => $request->specialization
+        ]);
+
+        if($updateData){
+            return redirect()->route('Doctor.index')->with('update-success', "Doctor Details Updated Successfully..");
+        }
     }
 
     /**

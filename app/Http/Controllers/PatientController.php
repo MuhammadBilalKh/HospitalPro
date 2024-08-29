@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\PatientDataTable;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Patient;
 
 class PatientController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(PatientDataTable $patientDataTable)
     {
-        //
+        return $patientDataTable->render('admin.patients.index');
     }
 
     /**
@@ -19,7 +23,9 @@ class PatientController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.patients.create',[
+            'doctors' => Doctor::GetDoctorsList()
+        ]);
     }
 
     /**
@@ -27,7 +33,21 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $patientValidatedData = $request->validate([
+            'patient_name' => "required",
+            'father_name' => "required",
+            "doctor_id" => "required|numeric",
+            'age' => "required|numeric",
+            'gender' => "required",
+            'address' => "required"
+        ]);
+
+        $patientValidatedData['user_id'] = Auth::user()->id;
+        $patientValidatedData['is_processed'] = 1;
+
+        Patient::create($patientValidatedData);
+
+        return redirect()->route("Patient.index")->with("create-success", "Patient Registered Successfully..");
     }
 
     /**

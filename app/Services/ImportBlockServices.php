@@ -62,11 +62,11 @@ class ImportBlockServices
 
         foreach ($csvData as $key => $value) {
             if ($value[0] == "") {
-                $errors[] = "Block Name Null On Line Number " . ($lineNumber + 1);
+                $errors[$key] = "Block Name Null On Line Number " . ($lineNumber + 1);
             }
 
             if (Block::where("block_name", $value[0])->exists()) {
-                $errors[] = "Block Name $value Existing On Line Number " . ($lineNumber + 1);
+                $errors[$key] = "Block Name $value Existing On Line Number " . ($lineNumber + 1);
             }
         }
 

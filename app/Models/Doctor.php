@@ -46,5 +46,11 @@ class Doctor extends Model
         return $this->attributes['qualification'] = strtoupper($val);
     }
 
+    public static function GetDoctorsList($docID = null){
+        return static::when($docID, function($query) use ($docID){
+            $query->where("id", $docID);
+        })->pluck("doctor_name", "id");
+    }
+
     protected $guards = "doctor";
 }

@@ -18,6 +18,14 @@
                     <a href="{{ route('users.dashboard') }}" class="nav-link "><span class="pcoded-micon"><i
                                 class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
                 </li>
+                <li class="nav-item @if (in_array(Route::currentRouteName(), ['Patient.index', 'Patient.create', 'Patient.show', 'Patient.edit'])) active @endif">
+                    <a href="{{ route('Patient.index') }}" class="nav-link">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-clipboard"></i>
+                        </span>
+                        <span class="pcoded-mtext">Patients Management</span>
+                    </a>
+                </li>
                 <li class="nav-item @if (in_array(Route::currentRouteName(), ['Users.index', 'Users.create', 'Users.show', 'Users.edit'])) active @endif">
                     <a href="{{ route('Users.index') }}" class="nav-link">
                         <span class="pcoded-micon">

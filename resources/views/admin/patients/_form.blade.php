@@ -66,6 +66,15 @@
         </div>
     </div>
 
+    @if($type != 'create')
+        <div class="col-sm-3">
+            <div class="form-group">
+                {!! Html::label("Registration DateTime: ") !!}
+                {!! Html::text("created_at")->class("form-control")->value($patient->created_at)->attribute("readonly", "readonly") !!}
+            </div>
+        </div>
+    @endif
+
     <div class="col-sm-12">
         <div class="form-group">
             {!! Html::label('Address: ') !!}
@@ -94,7 +103,7 @@
 @push('script')
     <script>
         $(document).ready(function() {
-            $("#slctgGender").select2();
+            $("#slctGender").select2();
             $("#slctDoctorList").select2();
             $("#txtPatientCNIC").mask("00000 - 0000000 - 0");
             $("#txtPatientMobileNumber").mask("0300 - 0000000");

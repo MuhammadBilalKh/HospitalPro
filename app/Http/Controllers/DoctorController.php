@@ -14,9 +14,11 @@ use Illuminate\Support\Str;
 
 class DoctorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct()
+    {
+        date_default_timezone_set("Asia/Karachi");
+    }
+
     public function index(DoctorDataTable $doctorDataTable)
     {
         return $doctorDataTable->render('admin.doctors.index');
@@ -110,7 +112,7 @@ class DoctorController extends Controller
             'specialization' => $request->specialization
         ]);
 
-        if($updateData){
+        if ($updateData) {
             return redirect()->route('Doctor.index')->with('update-success', "Doctor Details Updated Successfully..");
         }
     }

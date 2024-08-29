@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(){
+        date_default_timezone_set("Asia/Karachi");
+    }
+    
     public function index()
     {
         //

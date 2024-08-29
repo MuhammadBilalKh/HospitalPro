@@ -11,6 +11,11 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        date_default_timezone_set("Asia/Karachi");
+    }
+
     public function index(UsersDataTable $usersDataTable)
     {
         return $usersDataTable->render('admin.users.index');

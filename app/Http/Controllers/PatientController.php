@@ -10,9 +10,10 @@ use App\Models\Patient;
 
 class PatientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(){
+        date_default_timezone_set("Asia/Karachi");
+    }
+
     public function index(PatientDataTable $patientDataTable)
     {
         return $patientDataTable->render('admin.patients.index');
@@ -23,7 +24,7 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return view('admin.patients.create',[
+        return view('admin.patients.create', [
             'doctors' => Doctor::GetDoctorsList()
         ]);
     }
@@ -44,6 +45,8 @@ class PatientController extends Controller
 
         $patientValidatedData['user_id'] = Auth::user()->id;
         $patientValidatedData['is_processed'] = 1;
+        $patientValidatedData['cnic'] = $request->cnic;
+        $patientValidatedData['mobile_number'] = $request->mobile_number;
 
         Patient::create($patientValidatedData);
 
@@ -55,7 +58,11 @@ class PatientController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $patientData = Patient::find($id);
+        return view('admin.patients.show', [
+            'patient' => $patientData,
+            'doctors' => Doctor::GetDoctorsList($patientData->doctor_id)
+        ]);
     }
 
     /**
@@ -63,7 +70,11 @@ class PatientController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $patientData = Patient::find($id);
+        return view('admin.patients.edit', [
+            'patient' => $patientData,
+            'doctors' => Doctor::GetDoctorsList()
+        ]);
     }
 
     /**
@@ -71,7 +82,23 @@ class PatientController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $patientValidatedData = $request->validate([
+            'patient_name' => "required",
+            'father_name' => "required",
+            "doctor_id" => "required|numeric",
+            'age' => "required|numeric",
+            'gender' => "required",
+            'address' => "required",
+        ]);
+
+        $patientValidatedData['user_id'] = Auth::user()->id;
+        $patientValidatedData['is_processed'] = 1;
+        $patientValidatedData['cnic'] = $request->cnic;
+        $patientValidatedData['mobile_number'] = $request->mobile_number;
+
+        Patient::where("id", $id)->update($patientValidatedData);
+
+        return redirect()->route("Patient.index")->with("update-success", "Patient Detail's Successfully..");
     }
 
     /**

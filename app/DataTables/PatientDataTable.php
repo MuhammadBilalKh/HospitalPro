@@ -23,7 +23,8 @@ class PatientDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($patient){
-                return $patient->patient_name;
+                return "<a href='" . route('Patient.edit', $patient->id) . "' class='text-primary btn'><i class='feather text-center icon-edit-2'></i></a>" .
+                    "<a href='" . route("Patient.show", $patient->id) . "' class='text-secondary btn'><i class='text-center feather icon-eye'></i></a>";
             })
             ->setRowId('id');
     }

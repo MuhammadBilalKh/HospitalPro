@@ -19,5 +19,6 @@
         'patient' => $patient,
         'type' => 'edit',
         'format' => 'registration',
+        'doctorList' => $doctors
     ])
 @endsection
